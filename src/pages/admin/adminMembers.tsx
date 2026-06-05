@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
 import { Card } from "../../../components/ui/card";
 import { Button } from "../../../components/ui/button";
@@ -102,6 +103,7 @@ const EMPTY_FORM = {
 
 export default function AdminMembers() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const canCreate = user?.role === "ADMIN" || user?.role === "RECEPTIONIST";
   const canResetPassword =
     user?.role === "ADMIN" || user?.role === "RECEPTIONIST";
@@ -385,8 +387,9 @@ export default function AdminMembers() {
                         {i + 1}
                       </td>
                       <td
-                        className="truncate px-4 py-3 font-semibold text-foreground"
+                        className="truncate px-4 py-3 font-semibold text-foreground cursor-pointer hover:text-primary hover:underline"
                         title={m.name}
+                        onClick={() => navigate(`/admin/profile?kind=member&id=${m.id}`)}
                       >
                         {m.name}
                       </td>

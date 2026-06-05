@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
 import { Card } from "../../../components/ui/card";
 import { Button } from "../../../components/ui/button";
@@ -73,6 +74,7 @@ const inputClass =
 
 export default function AdminStaffs() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const isAdmin = user?.role === "ADMIN";
 
   const [staffs, setStaffs] = useState<Staff[]>([]);
@@ -283,11 +285,9 @@ export default function AdminStaffs() {
                 <th className="w-28 px-4 py-3 text-left font-medium text-muted-foreground">
                   Trạng thái
                 </th>
-                {isAdmin && (
-                  <th className="w-30 px-4 py-3 text-center font-medium text-muted-foreground">
-                    Thao tác
-                  </th>
-                )}
+                <th className="w-30 px-4 py-3 text-center font-medium text-muted-foreground">
+                  Thao tác
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -303,7 +303,7 @@ export default function AdminStaffs() {
               ) : filtered.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={isAdmin ? 8 : 7}
+                    colSpan={8}
                     className="px-4 py-16 text-center text-muted-foreground"
                   >
                     <Users className="mx-auto mb-3 h-12 w-12 opacity-20" />
@@ -328,8 +328,9 @@ export default function AdminStaffs() {
                       {s.username}
                     </td>
                     <td
-                      className="truncate px-4 py-3 font-semibold text-foreground"
+                      className="truncate px-4 py-3 font-semibold text-foreground cursor-pointer hover:text-primary hover:underline"
                       title={s.name}
+                      onClick={() => navigate(`/admin/profile?kind=staff&id=${s.id}`)}
                     >
                       {s.name}
                     </td>
@@ -356,36 +357,38 @@ export default function AdminStaffs() {
                         {s.is_active ? "Đang làm" : "Nghỉ việc"}
                       </span>
                     </td>
-                    {isAdmin && (
-                      <td className="whitespace-nowrap px-4 py-3">
-                        <div className="flex items-center justify-end gap-1">
-                          <button
-                            onClick={() => handleResetPassword(s)}
-                            disabled={resettingId === s.id}
-                            className="rounded-lg p-2 text-muted-foreground transition-colors hover:bg-amber-50 hover:text-amber-600"
-                            title="Reset mật khẩu về 123456"
-                          >
-                            <KeyRound className="h-4 w-4" />
-                          </button>
-                          <button
-                            onClick={() => openEdit(s)}
-                            className="rounded-lg p-2 text-muted-foreground transition-colors hover:bg-blue-50 hover:text-blue-600"
-                            title="Chỉnh sửa"
-                          >
-                            <Pencil className="h-4 w-4" />
-                          </button>
-                          {s.is_active && s.id !== user?.id && (
+                    <td className="whitespace-nowrap px-4 py-3">
+                      <div className="flex items-center justify-end gap-1">
+                        {isAdmin && (
+                          <>
                             <button
-                              onClick={() => setDeactivateTarget(s)}
-                              className="rounded-lg p-2 text-muted-foreground transition-colors hover:bg-red-50 hover:text-red-600"
-                              title="Vô hiệu hóa"
+                              onClick={() => handleResetPassword(s)}
+                              disabled={resettingId === s.id}
+                              className="rounded-lg p-2 text-muted-foreground transition-colors hover:bg-amber-50 hover:text-amber-600"
+                              title="Reset mật khẩu về 123456"
                             >
-                              <ShieldOff className="h-4 w-4" />
+                              <KeyRound className="h-4 w-4" />
                             </button>
-                          )}
-                        </div>
-                      </td>
-                    )}
+                            <button
+                              onClick={() => openEdit(s)}
+                              className="rounded-lg p-2 text-muted-foreground transition-colors hover:bg-blue-50 hover:text-blue-600"
+                              title="Chỉnh sửa"
+                            >
+                              <Pencil className="h-4 w-4" />
+                            </button>
+                            {s.is_active && s.id !== user?.id && (
+                              <button
+                                onClick={() => setDeactivateTarget(s)}
+                                className="rounded-lg p-2 text-muted-foreground transition-colors hover:bg-red-50 hover:text-red-600"
+                                title="Vô hiệu hóa"
+                              >
+                                <ShieldOff className="h-4 w-4" />
+                              </button>
+                            )}
+                          </>
+                        )}
+                      </div>
+                    </td>
                   </tr>
                 ))
               )}

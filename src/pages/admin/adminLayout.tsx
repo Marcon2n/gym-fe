@@ -8,6 +8,7 @@ import {
   LogOut,
   Menu,
   ChevronDown,
+  UserCircle,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -182,6 +183,16 @@ export default function AdminLayout() {
                 </div>
                 {/* Actions */}
                 <div className="p-1">
+                  <button
+                    onClick={() => {
+                      setDropdownOpen(false);
+                      navigate("/admin/profile");
+                    }}
+                    className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-foreground hover:bg-muted transition-colors"
+                  >
+                    <UserCircle className="h-4 w-4" />
+                    Hồ sơ của tôi
+                  </button>
                   <button
                     onClick={handleLogout}
                     className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-destructive hover:bg-destructive/10 transition-colors"
