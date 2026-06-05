@@ -98,13 +98,13 @@ export default function AdminLayout() {
         } flex flex-col border-r border-border bg-card transition-all duration-300 overflow-hidden shrink-0`}
       >
         {/* Sidebar Header */}
-        <div
-          className="flex h-16 shrink-0 items-center border-b border-border px-4 cursor-pointer hover:opacity-80 transition-opacity"
+        <button
           onClick={() => navigate("/")}
+          className="flex h-16 items-center hover:opacity-80 transition-opacity border-b border-border"
         >
           <img src="/favicon.svg" alt="Logo" className="h-8 w-8" />
-          <h1 className="ml-2 font-bold text-foreground">GYM SIX</h1>
-        </div>
+          <h1 className="ml-2 font-bold text-primary">GYM SIX</h1>
+        </button>
 
         {/* Navigation */}
         <nav className="flex-1 space-y-1 overflow-y-auto p-3">

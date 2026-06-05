@@ -3,7 +3,14 @@ import { useNavigate } from "react-router-dom";
 import iconImg from "../public/favicon.svg";
 import { Button } from "./ui/button";
 import { useAuth } from "../src/context/authContext";
-import { CalendarDays, LogOut, User, ChevronDown } from "lucide-react";
+import {
+  CalendarDays,
+  LogOut,
+  User,
+  ChevronDown,
+  RefreshCw,
+  PauseCircle,
+} from "lucide-react";
 import MemberProfileDialog from "./MemberProfileDialog";
 
 export default function Header() {
@@ -37,13 +44,17 @@ export default function Header() {
     <>
       <header className="sticky top-0 z-40 bg-background/95 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-          {/* Logo */}
-          <button
-            onClick={() => navigate("/")}
-            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
-          >
-            <img src={iconImg} alt="Gym Six Icon" className="h-8 w-8" />
-            <h1 className="text-lg font-bold text-primary">GYM SIX</h1>
+          <div className="flex items-center gap-6">
+            {/* Logo */}
+            <button
+              onClick={() => navigate("/")}
+              className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+            >
+              <img src={iconImg} alt="Gym Six Icon" className="h-8 w-8" />
+              <h1 className="text-lg font-bold text-primary">GYM SIX</h1>
+            </button>
+
+            {/* Nav — member only */}
             {isAuthenticated && isMember && (
               <nav className="hidden md:flex items-center gap-1">
                 <button
@@ -53,11 +64,23 @@ export default function Header() {
                   {/* <CalendarDays className="h-4 w-4" /> */}
                   Quản lý lịch tập
                 </button>
+                <button
+                  // onClick={() => navigate("/member/booking")}
+                  className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"
+                >
+                  {/* <CalendarDays className="h-4 w-4" /> */}
+                  Quản lý gói tập
+                </button>
+                <button
+                  // onClick={() => navigate("/member/booking")}
+                  className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"
+                >
+                  {/* <CalendarDays className="h-4 w-4" /> */}
+                  Tạm dừng gói tập
+                </button>
               </nav>
             )}
-          </button>
-
-          {/* Nav — member only */}
+          </div>
 
           {/* Right side */}
           <div className="flex items-center gap-2">
@@ -103,6 +126,26 @@ export default function Header() {
                       >
                         <CalendarDays className="h-4 w-4 text-muted-foreground" />
                         Quản lý lịch tập
+                      </button>
+                      <button
+                        onClick={() => {
+                          setDropdownOpen(false);
+                          navigate("/member/booking");
+                        }}
+                        className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-foreground hover:bg-muted transition-colors"
+                      >
+                        <RefreshCw className="h-4 w-4 text-muted-foreground" />
+                        Quàn lý gói tập
+                      </button>
+                      <button
+                        onClick={() => {
+                          setDropdownOpen(false);
+                          navigate("/member/booking");
+                        }}
+                        className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-foreground hover:bg-muted transition-colors"
+                      >
+                        <PauseCircle className="h-4 w-4 text-muted-foreground" />
+                        Tạm dừng gói tập
                       </button>
                       <button
                         onClick={() => {
