@@ -16,6 +16,7 @@ interface LoginResponse {
   temporaryToken?: string;
   data: {
     accessToken: string;
+    id: number;
     name: string;
     role: "ADMIN" | "RECEPTIONIST" | "PT" | "MEMBER";
   } | null;
@@ -55,6 +56,7 @@ export default function Login() {
       // Đăng nhập thành công
       if (response.data) {
         login(response.data.accessToken, {
+          id: response.data.id,
           name: response.data.name,
           role: response.data.role,
         });
@@ -67,11 +69,12 @@ export default function Login() {
       } else {
         toast.error("Lỗi: Không nhận được token hoặc thông tin user");
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Login error:", error);
+      const err = error as { error?: { details?: string }; message?: string };
       toast.error(
-        error?.details ||
-          error?.message ||
+        err?.error?.details ||
+          err?.message ||
           "Đăng nhập thất bại, vui lòng thử lại",
       );
     } finally {

@@ -19,7 +19,7 @@ interface BackendErrorResponse {
 }
 
 const api = axios.create({
-  baseURL: "http://localhost:8888/api", // Cổng BE của bạn
+  baseURL: "https://api-gym.devcode.sbs/api", // Cổng BE của bạn
   timeout: 10000, // Quá 10 giây không rep -> Ngắt
 });
 
@@ -53,7 +53,10 @@ api.interceptors.response.use(
 
       // 🚨 CASE 1: Ép đổi mật khẩu mặc định (403 + Code chuẩn)
       // backendData.error chứa payload gốc từ BE sau khi responseFormatter wrap
-      if (status === 403 && backendData?.error?.code === "NEED_CHANGE_PASSWORD") {
+      if (
+        status === 403 &&
+        backendData?.error?.code === "NEED_CHANGE_PASSWORD"
+      ) {
         const tempToken = backendData.error?.temporaryToken;
         if (tempToken) {
           localStorage.setItem("tempToken", tempToken);
