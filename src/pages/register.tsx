@@ -22,7 +22,7 @@ interface ApiResponse<T> {
 
 type Step = 1 | 2 | 3;
 
-const COUNTDOWN_SECONDS = 30;
+const COUNTDOWN_SECONDS = 10;
 
 function generateTransactionCode() {
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
